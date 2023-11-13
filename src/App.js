@@ -5,11 +5,16 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/profile";
+import Find from "./pages/Find";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Dashboard />,
+	},
+	{
+		path: "/find",
+		element: <Find />,
 	},
 	{
 		path: "/profile/:id",
