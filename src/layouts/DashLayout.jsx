@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -10,6 +12,7 @@ import Container from "@mui/material/Container";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 import { mainListItems } from "./listItems";
+import { get_user } from "../utils/login.utils";
 
 const drawerWidth = 240;
 
@@ -44,6 +47,15 @@ export default function DashLayout({ children }) {
 	const toggleDrawer = () => {
 		setOpen(!open);
 	};
+
+	const navigate = useNavigate();
+
+	React.useEffect(() => {
+		const logged_data = get_user();
+		if (!logged_data) {
+			navigate("/login");
+		}
+	}, [navigate]);
 
 	return (
 		<Box sx={{ display: "flex" }}>

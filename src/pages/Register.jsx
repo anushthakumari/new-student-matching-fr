@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,15 +12,61 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+import { fetch_user_by_email, insert_user } from "../schemas/users.schema";
+import { set_user, get_user } from "../utils/login.utils";
+
 export default function Register() {
-	const handleSubmit = (event) => {
+	const [isLoading, setisLoading] = React.useState(false);
+
+	const navigate = useNavigate();
+
+	const handleSubmit = async (event) => {
 		event.preventDefault();
+
+		setisLoading(true);
+
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+		const d = {
+			email: data.get("email").trim(),
+			password: data.get("password").trim(),
+			firstName: data.get("firstName").trim(),
+			lastName: data.get("lastName").trim(),
+		};
+
+		try {
+			const user = await fetch_user_by_email(d.email);
+
+			if (user) {
+				alert("User with this email already exists!");
+				setisLoading(false);
+				return;
+			}
+
+			const user_id = await insert_user(
+				d.email,
+				d.password,
+				d.firstName,
+				d.lastName
+			);
+
+			set_user({ ...d, user_id });
+			navigate("/");
+			alert("You've been registerd!");
+		} catch (error) {
+			// Handle error
+			alert("something went wrong!");
+			console.log(error);
+		} finally {
+			setisLoading(false);
+		}
 	};
+
+	React.useEffect(() => {
+		const logged_data = get_user();
+		if (logged_data) {
+			navigate("/");
+		}
+	}, [navigate]);
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -85,8 +133,9 @@ export default function Register() {
 						type="submit"
 						fullWidth
 						variant="contained"
-						sx={{ mt: 3, mb: 2 }}>
-						Sign Up
+						sx={{ mt: 3, mb: 2 }}
+						disabled={isLoading}>
+						{isLoading ? "Loading..." : "Sign Up"}
 					</Button>
 					<Grid container justifyContent="flex-end">
 						<Grid item>

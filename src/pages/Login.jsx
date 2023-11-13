@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,15 +13,55 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+import { fetch_user_by_email } from "../schemas/users.schema";
+import { get_user, set_user } from "../utils/login.utils";
+
 export default function Login() {
-	const handleSubmit = (event) => {
+	const [isLoading, setisLoading] = React.useState(false);
+
+	const navigate = useNavigate();
+
+	const handleSubmit = async (event) => {
 		event.preventDefault();
+
+		setisLoading(true);
+
 		const data = new FormData(event.currentTarget);
-		console.log({
+		const d = {
 			email: data.get("email"),
 			password: data.get("password"),
-		});
+		};
+
+		try {
+			const user = await fetch_user_by_email(d.email);
+
+			if (!user) {
+				alert("User with this email doesn't exists!");
+				setisLoading(false);
+				return;
+			}
+
+			if (user.pass !== d.password) {
+				alert("Invalid Password!");
+				setisLoading(false);
+				return;
+			}
+
+			set_user({ ...user, pass: null, user_id: user.doc_id });
+			navigate("/");
+		} catch (error) {
+			console.log("something went wrong!");
+		} finally {
+			setisLoading(false);
+		}
 	};
+
+	React.useEffect(() => {
+		const logged_data = get_user();
+		if (logged_data) {
+			navigate("/");
+		}
+	}, [navigate]);
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -57,16 +99,12 @@ export default function Login() {
 						id="password"
 						autoComplete="current-password"
 					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
-					/>
 					<Button
 						type="submit"
 						fullWidth
 						variant="contained"
-						sx={{ mt: 3, mb: 2 }}>
-						Sign In
+						disabled={isLoading}>
+						{isLoading ? "Loading..." : "Sign In"}
 					</Button>
 					<Grid container>
 						<Grid item xs></Grid>
