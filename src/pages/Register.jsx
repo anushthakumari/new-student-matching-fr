@@ -49,7 +49,7 @@ export default function Register() {
 				d.lastName
 			);
 
-			set_user({ ...d, user_id });
+			set_user({ ...d, id: user_id });
 			navigate("/");
 			alert("You've been registerd!");
 		} catch (error) {

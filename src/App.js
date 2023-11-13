@@ -6,11 +6,16 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/profile";
 import Find from "./pages/Find";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Dashboard />,
+	},
+	{
+		path: "/settings",
+		element: <Settings />,
 	},
 	{
 		path: "/find",

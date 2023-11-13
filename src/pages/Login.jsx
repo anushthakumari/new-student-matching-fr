@@ -46,7 +46,7 @@ export default function Login() {
 				return;
 			}
 
-			set_user({ ...user, pass: null, user_id: user.doc_id });
+			set_user({ ...user, pass: null, id: user.doc_id });
 			navigate("/");
 		} catch (error) {
 			console.log("something went wrong!");

@@ -1,6 +1,7 @@
 import {
 	collection,
 	getDoc,
+	setDoc,
 	doc,
 	getDocs,
 	query,
@@ -51,4 +52,17 @@ export const fetch_user_by_email = async (email = "") => {
 	}
 
 	return null;
+};
+
+export const insert_details = async (data, user_id) => {
+	await setDoc(
+		doc(firestore, users_schema.name, user_id),
+		{
+			...data,
+			last_updated: serverTimestamp(),
+		},
+		{
+			merge: true,
+		}
+	);
 };
