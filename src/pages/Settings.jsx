@@ -36,6 +36,12 @@ const defaultState = {
 	college_name: "",
 	ed_level: "",
 	ed_specs: "",
+	honesty: false,
+	emotional: false,
+	extraversion: false,
+	agreeableness: false,
+	consc: false,
+	openness: false,
 };
 
 export default function Settings() {
@@ -87,7 +93,7 @@ export default function Settings() {
 				const dt = await fetch_user_by_email(email);
 
 				if (!dt) {
-					setformState(defaultState);
+					return;
 				}
 
 				const { last_updated, ...det } = dt;
@@ -314,7 +320,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.honesty} />
 									<ListItemText
 										primary="Honesty"
 										secondary="The tendency to be fair, honest, and trustworthy, and to be modest and avoid arrogance."
@@ -325,7 +331,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.emotional} />
 									<ListItemText
 										primary="Emotionality"
 										secondary="The tendency to experience and express emotions intensely, and to be anxious and prone to worry."
@@ -336,7 +342,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.extraversion} />
 									<ListItemText
 										primary="Extraversion"
 										secondary="The tendency to be outgoing, sociable, and assertive, and to enjoy the company of others."
@@ -347,7 +353,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.agreeableness} />
 									<ListItemText
 										primary="Agreeableness"
 										secondary="The tendency to be cooperative, trusting, and forgiving, and to avoid conflict and competition."
@@ -358,7 +364,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.consc} />
 									<ListItemText
 										primary="Conscientiousness"
 										secondary="The tendency to be organized, hardworking, and responsible, and to plan ahead and avoid impulsiveness."
@@ -369,7 +375,7 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox />
+									<Checkbox checked={formState.openness} />
 									<ListItemText
 										primary="Openness to Experience"
 										secondary="The tendency to be curious, creative, and imaginative, and to enjoy new experiences and ideas."
