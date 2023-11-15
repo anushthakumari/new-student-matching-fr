@@ -13,6 +13,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 import { MainListItems } from "./listItems";
 import { get_user } from "../utils/login.utils";
+import { Typography } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -63,6 +64,7 @@ export default function DashLayout({ children }) {
 						justifyContent: "flex-end",
 						px: [1],
 					}}>
+					<Typography>Hello, {logged_data.firstName}!</Typography>
 					<IconButton onClick={toggleDrawer}>
 						<ChevronLeftIcon />
 					</IconButton>

@@ -3,15 +3,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/profile";
 import Find from "./pages/Find";
 import Settings from "./pages/Settings";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Dashboard />,
+		element: <Find />,
 	},
 	{
 		path: "/settings",
@@ -20,10 +18,6 @@ const router = createBrowserRouter([
 	{
 		path: "/find",
 		element: <Find />,
-	},
-	{
-		path: "/profile/:id",
-		element: <Profile />,
 	},
 	{
 		path: "/login",

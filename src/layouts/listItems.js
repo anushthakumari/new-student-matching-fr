@@ -7,8 +7,15 @@ import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 
+import { remove_user } from "../utils/login.utils";
+
 export const MainListItems = () => {
 	const navigate = useNavigate();
+
+	const logout = () => {
+		remove_user();
+		navigate("/login");
+	};
 
 	return (
 		<React.Fragment>
@@ -23,6 +30,9 @@ export const MainListItems = () => {
 					<SettingsIcon />
 				</ListItemIcon>
 				<ListItemText primary="Settings" />
+			</ListItemButton>
+			<ListItemButton onClick={logout}>
+				<ListItemText primary="Logout" />
 			</ListItemButton>
 		</React.Fragment>
 	);

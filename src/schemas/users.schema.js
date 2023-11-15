@@ -72,3 +72,10 @@ export const insert_details = async (data, user_id) => {
 		}
 	);
 };
+
+export const fetch_all_users_details = async () => {
+	const usersRef = collection(firestore, users_schema.name);
+	const { docs } = await getDocs(usersRef);
+
+	return docs.map((d) => ({ ...d.data(), doc_id: d.id }));
+};

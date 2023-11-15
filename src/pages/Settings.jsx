@@ -63,20 +63,26 @@ export default function Settings() {
 			setisLoading(true);
 			const d = {};
 			for (const key in formState) {
-				const val = formState[key];
-
-				if (typeof val !== "string") {
+				if (key === "created_at" || key === "last_updated") {
 					continue;
 				}
 
-				if (val && val.trim()) {
-					d[key] = val;
+				const val = formState[key];
+
+				if (typeof val === "string") {
+					if (val && val.trim()) {
+						d[key] = val;
+					} else {
+						alert(key + " is required!!");
+						setisLoading(false);
+						return;
+					}
 				} else {
-					alert(key + " is required!!");
-					setisLoading(false);
-					return;
+					d[key] = val;
 				}
 			}
+
+			console.log(d);
 
 			await insert_details(d, user.id);
 
