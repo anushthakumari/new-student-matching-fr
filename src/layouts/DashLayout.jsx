@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-import { mainListItems } from "./listItems";
+import { MainListItems } from "./listItems";
 import { get_user } from "../utils/login.utils";
 
 const drawerWidth = 240;
@@ -68,7 +68,9 @@ export default function DashLayout({ children }) {
 					</IconButton>
 				</Toolbar>
 				<Divider />
-				<List component="nav">{mainListItems}</List>
+				<List component="nav">
+					<MainListItems />
+				</List>
 			</Drawer>
 			<Box
 				component="main"
