@@ -11,7 +11,6 @@ import Checkbox from "@mui/material/Checkbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 
 import Loader from "../components/Loader";
 import DashLayout from "../layouts/DashLayout";
@@ -45,13 +44,17 @@ const defaultState = {
 };
 
 export default function Settings() {
-	const { id, email } = get_user();
+	const user = get_user();
 
 	const [isLoading, setisLoading] = useState(false);
 	const [formState, setformState] = useState(defaultState);
 
 	const handleChange = (e) => {
 		setformState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+	};
+
+	const handlePrefChange = (e) => {
+		setformState((prev) => ({ ...prev, [e.target.name]: e.target.checked }));
 	};
 
 	const handelSubmit = async (e) => {
@@ -62,7 +65,7 @@ export default function Settings() {
 			for (const key in formState) {
 				const val = formState[key];
 
-				if (key === "created_at" || key === "last_updated") {
+				if (typeof val !== "string") {
 					continue;
 				}
 
@@ -75,7 +78,7 @@ export default function Settings() {
 				}
 			}
 
-			await insert_details(d, id);
+			await insert_details(d, user.id);
 
 			alert("Saved Successfully!");
 		} catch (error) {
@@ -90,7 +93,7 @@ export default function Settings() {
 		(async () => {
 			try {
 				setisLoading(true);
-				const dt = await fetch_user_by_email(email);
+				const dt = await fetch_user_by_email(user.email);
 
 				if (!dt) {
 					return;
@@ -104,7 +107,7 @@ export default function Settings() {
 				setisLoading();
 			}
 		})();
-	}, [id]);
+	}, [user.email]);
 
 	return (
 		<DashLayout>
@@ -320,7 +323,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.honesty} />
+									<Checkbox
+										checked={formState.honesty}
+										name="honesty"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Honesty"
 										secondary="The tendency to be fair, honest, and trustworthy, and to be modest and avoid arrogance."
@@ -331,7 +338,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.emotional} />
+									<Checkbox
+										checked={formState.emotional}
+										name="emotional"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Emotionality"
 										secondary="The tendency to experience and express emotions intensely, and to be anxious and prone to worry."
@@ -342,7 +353,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.extraversion} />
+									<Checkbox
+										checked={formState.extraversion}
+										name="extraversion"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Extraversion"
 										secondary="The tendency to be outgoing, sociable, and assertive, and to enjoy the company of others."
@@ -353,7 +368,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.agreeableness} />
+									<Checkbox
+										checked={formState.agreeableness}
+										name="agreeableness"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Agreeableness"
 										secondary="The tendency to be cooperative, trusting, and forgiving, and to avoid conflict and competition."
@@ -364,7 +383,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.consc} />
+									<Checkbox
+										checked={formState.consc}
+										name="consc"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Conscientiousness"
 										secondary="The tendency to be organized, hardworking, and responsible, and to plan ahead and avoid impulsiveness."
@@ -375,7 +398,11 @@ export default function Settings() {
 						<Grid sm={6} item>
 							<List>
 								<ListItem>
-									<Checkbox checked={formState.openness} />
+									<Checkbox
+										checked={formState.openness}
+										name="openness"
+										onChange={handlePrefChange}
+									/>
 									<ListItemText
 										primary="Openness to Experience"
 										secondary="The tendency to be curious, creative, and imaginative, and to enjoy new experiences and ideas."

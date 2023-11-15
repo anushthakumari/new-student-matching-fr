@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
@@ -48,14 +48,10 @@ export default function DashLayout({ children }) {
 		setOpen(!open);
 	};
 
-	const navigate = useNavigate();
-
-	React.useEffect(() => {
-		const logged_data = get_user();
-		if (!logged_data) {
-			navigate("/login");
-		}
-	}, [navigate]);
+	const logged_data = get_user();
+	if (!logged_data) {
+		return <Navigate to="/login" />;
+	}
 
 	return (
 		<Box sx={{ display: "flex" }}>

@@ -36,6 +36,12 @@ export const insert_user = async (
 		pass,
 		firstName,
 		lastName,
+		honesty: true,
+		emotional: true,
+		extraversion: true,
+		agreeableness: true,
+		consc: true,
+		openness: true,
 		created_at: serverTimestamp(),
 	});
 
